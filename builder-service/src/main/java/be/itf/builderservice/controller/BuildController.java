@@ -3,7 +3,6 @@ package be.itf.builderservice.controller;
 import be.itf.builderservice.model.Build;
 import be.itf.builderservice.model.Tag;
 import be.itf.builderservice.repository.BuildRepository;
-import be.itf.builderservice.response.BuildResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +23,11 @@ public class BuildController {
         Build build = new Build("Rapier", "Musket", "TestBuild", "Sybren", Tag.PvE);
 
         List<Integer> test = new ArrayList<>();
-        test.add(20);
-        test.add(50);
-        test.add(10);
-        test.add(50);
-        test.add(75);
+        test.add(1);
+        test.add(2);
+        test.add(3);
+        test.add(100);
+        test.add(100);
 
         build.setAttributeOptions(test);
         build.setSelectedAbilitiesWeapon1(test);

@@ -3,6 +3,7 @@ package be.itf.builderservice;
 import be.itf.builderservice.model.Build;
 import be.itf.builderservice.model.Tag;
 import be.itf.builderservice.repository.BuildRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,9 +18,8 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -30,6 +30,8 @@ public class BuildControllerIntegrationTests {
 
     @Autowired
     private BuildRepository buildRepository;
+    
+    private ObjectMapper mapper = new ObjectMapper();
 
     private Build build1 = new Build("TestWeapon1", "TestWeapon2", "Test", "Luuk", Tag.PvE);
     private Build build2 = new Build("TestWeapon3", "TestWeapon4", "Test2", "Luuk2", Tag.PvP);
@@ -67,13 +69,14 @@ public class BuildControllerIntegrationTests {
     }
 
     @Test
-    public void givenBuilders_whenGetAllBuilders_thenReturnJsonBuilders() throws Exception {
+    public void givenBuilds_whenGetAllBuilds_thenReturnJsonBuilds() throws Exception {
         List<Integer> testList1 = new ArrayList<>();
         testList1.add(1);
         testList1.add(2);
         testList1.add(3);
         testList1.add(100);
         testList1.add(100);
+
         List<Integer> testList2 = new ArrayList<>();
         testList2.add(4);
         testList2.add(5);
@@ -104,7 +107,7 @@ public class BuildControllerIntegrationTests {
     }
 
     @Test
-    public void givenBuilder_whenGetBuilderByName_thenReturnJsonBuilder() throws Exception {
+    public void givenBuild_whenGetBuildByName_thenReturnJsonBuild() throws Exception {
         List<Integer> testList1 = new ArrayList<>();
         testList1.add(1);
         testList1.add(2);
@@ -123,5 +126,211 @@ public class BuildControllerIntegrationTests {
                 .andExpect(jsonPath("$.selectedAbilitiesWeapon1", is(testList1)))
                 .andExpect(jsonPath("$.selectedAbilitiesWeapon2", is(testList1)))
                 .andExpect(jsonPath("$.attributeOptions", is(testList1)));
+    }
+
+    @Test
+    public void givenBuilds_whenGetBuildsByName_thenReturnJsonBuilds() throws Exception {
+        List<Integer> testList1 = new ArrayList<>();
+        testList1.add(1);
+        testList1.add(2);
+        testList1.add(3);
+        testList1.add(100);
+        testList1.add(100);
+
+        List<Integer> testList2 = new ArrayList<>();
+        testList2.add(4);
+        testList2.add(5);
+        testList2.add(6);
+        testList2.add(200);
+        testList2.add(200);
+
+        mockMvc.perform(get("/builders/{name}", "Test"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].primaryWeaponName", is("TestWeapon1")))
+                .andExpect(jsonPath("$[0].secondaryWeaponName", is("TestWeapon2")))
+                .andExpect(jsonPath("$[0].name", is("Test")))
+                .andExpect(jsonPath("$[0].username", is("Luuk")))
+                .andExpect(jsonPath("$[0].tag", is("PvE")))
+                .andExpect(jsonPath("$[0].selectedAbilitiesWeapon1", is(testList1)))
+                .andExpect(jsonPath("$[0].selectedAbilitiesWeapon2", is(testList1)))
+                .andExpect(jsonPath("$[0].attributeOptions", is(testList1)))
+
+                .andExpect(jsonPath("$[1].primaryWeaponName", is("TestWeapon3")))
+                .andExpect(jsonPath("$[1].secondaryWeaponName", is("TestWeapon4")))
+                .andExpect(jsonPath("$[1].name", is("Test2")))
+                .andExpect(jsonPath("$[1].username", is("Luuk2")))
+                .andExpect(jsonPath("$[1].tag", is("PvP")))
+                .andExpect(jsonPath("$[1].selectedAbilitiesWeapon1", is(testList2)))
+                .andExpect(jsonPath("$[1].selectedAbilitiesWeapon2", is(testList2)))
+                .andExpect(jsonPath("$[1].attributeOptions", is(testList2)));
+        }
+
+    @Test
+    public void givenBuilds_whenGetBuildsByUsername_thenReturnJsonBuilds() throws Exception {
+        List<Integer> testList1 = new ArrayList<>();
+        testList1.add(1);
+        testList1.add(2);
+        testList1.add(3);
+        testList1.add(100);
+        testList1.add(100);
+
+        List<Integer> testList2 = new ArrayList<>();
+        testList2.add(4);
+        testList2.add(5);
+        testList2.add(6);
+        testList2.add(200);
+        testList2.add(200);
+
+        mockMvc.perform(get("/builders/user/{name}", "Luuk"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].primaryWeaponName", is("TestWeapon1")))
+                .andExpect(jsonPath("$[0].secondaryWeaponName", is("TestWeapon2")))
+                .andExpect(jsonPath("$[0].name", is("Test")))
+                .andExpect(jsonPath("$[0].username", is("Luuk")))
+                .andExpect(jsonPath("$[0].tag", is("PvE")))
+                .andExpect(jsonPath("$[0].selectedAbilitiesWeapon1", is(testList1)))
+                .andExpect(jsonPath("$[0].selectedAbilitiesWeapon2", is(testList1)))
+                .andExpect(jsonPath("$[0].attributeOptions", is(testList1)))
+
+                .andExpect(jsonPath("$[1].primaryWeaponName", is("TestWeapon3")))
+                .andExpect(jsonPath("$[1].secondaryWeaponName", is("TestWeapon4")))
+                .andExpect(jsonPath("$[1].name", is("Test2")))
+                .andExpect(jsonPath("$[1].username", is("Luuk2")))
+                .andExpect(jsonPath("$[1].tag", is("PvP")))
+                .andExpect(jsonPath("$[1].selectedAbilitiesWeapon1", is(testList2)))
+                .andExpect(jsonPath("$[1].selectedAbilitiesWeapon2", is(testList2)))
+                .andExpect(jsonPath("$[1].attributeOptions", is(testList2)));
+    }
+
+    @Test
+    public void givenBuilds_whenGetBuildsByWeapon_thenReturnJsonBuilds() throws Exception {
+        List<Integer> testList1 = new ArrayList<>();
+        testList1.add(1);
+        testList1.add(2);
+        testList1.add(3);
+        testList1.add(100);
+        testList1.add(100);
+
+        List<Integer> testList2 = new ArrayList<>();
+        testList2.add(4);
+        testList2.add(5);
+        testList2.add(6);
+        testList2.add(200);
+        testList2.add(200);
+
+        mockMvc.perform(get("/builders/weapon/{name}", "TestWeapon"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].primaryWeaponName", is("TestWeapon1")))
+                .andExpect(jsonPath("$[0].secondaryWeaponName", is("TestWeapon2")))
+                .andExpect(jsonPath("$[0].name", is("Test")))
+                .andExpect(jsonPath("$[0].username", is("Luuk")))
+                .andExpect(jsonPath("$[0].tag", is("PvE")))
+                .andExpect(jsonPath("$[0].selectedAbilitiesWeapon1", is(testList1)))
+                .andExpect(jsonPath("$[0].selectedAbilitiesWeapon2", is(testList1)))
+                .andExpect(jsonPath("$[0].attributeOptions", is(testList1)))
+
+                .andExpect(jsonPath("$[1].primaryWeaponName", is("TestWeapon3")))
+                .andExpect(jsonPath("$[1].secondaryWeaponName", is("TestWeapon4")))
+                .andExpect(jsonPath("$[1].name", is("Test2")))
+                .andExpect(jsonPath("$[1].username", is("Luuk2")))
+                .andExpect(jsonPath("$[1].tag", is("PvP")))
+                .andExpect(jsonPath("$[1].selectedAbilitiesWeapon1", is(testList2)))
+                .andExpect(jsonPath("$[1].selectedAbilitiesWeapon2", is(testList2)))
+                .andExpect(jsonPath("$[1].attributeOptions", is(testList2)));
+    }
+
+    @Test
+    public void givenBuilds_whenGetBuildsByTag_thenReturnJsonBuilds() throws Exception {
+        List<Integer> testList1 = new ArrayList<>();
+        testList1.add(1);
+        testList1.add(2);
+        testList1.add(3);
+        testList1.add(100);
+        testList1.add(100);
+
+        mockMvc.perform(get("/builders/tag/{name}", "PvE"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].primaryWeaponName", is("TestWeapon1")))
+                .andExpect(jsonPath("$[0].secondaryWeaponName", is("TestWeapon2")))
+                .andExpect(jsonPath("$[0].name", is("Test")))
+                .andExpect(jsonPath("$[0].username", is("Luuk")))
+                .andExpect(jsonPath("$[0].tag", is("PvE")))
+                .andExpect(jsonPath("$[0].selectedAbilitiesWeapon1", is(testList1)))
+                .andExpect(jsonPath("$[0].selectedAbilitiesWeapon2", is(testList1)))
+                .andExpect(jsonPath("$[0].attributeOptions", is(testList1)));
+    }
+
+    @Test
+    public void whenCreateBuild_thenReturnJsonBuild() throws Exception {
+        Build build3 = new Build("TestWeapon5", "TestWeapon6", "Test3", "Luuk3", Tag.War);
+        List<Integer> testList3 = new ArrayList<>();
+        testList3.add(7);
+        testList3.add(8);
+        testList3.add(9);
+        testList3.add(300);
+        testList3.add(300);
+        build3.setAttributeOptions(testList3);
+        build3.setSelectedAbilitiesWeapon1(testList3);
+        build3.setSelectedAbilitiesWeapon2(testList3);
+
+        mockMvc.perform(post("/builder")
+                .content(mapper.writeValueAsString(build3))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.primaryWeaponName", is("TestWeapon5")))
+                .andExpect(jsonPath("$.secondaryWeaponName", is("TestWeapon6")))
+                .andExpect(jsonPath("$.name", is("Test3")))
+                .andExpect(jsonPath("$.username", is("Luuk3")))
+                .andExpect(jsonPath("$.tag", is("War")))
+                .andExpect(jsonPath("$.selectedAbilitiesWeapon1", is(testList3)))
+                .andExpect(jsonPath("$.selectedAbilitiesWeapon2", is(testList3)))
+                .andExpect(jsonPath("$.attributeOptions", is(testList3)));
+    }
+
+    @Test
+    public void whenPutBuild_thenReturnJsonBuild() throws Exception {
+        Build build3 = new Build("TestWeapon5", "TestWeapon6", "Test3", "Luuk3", Tag.War);
+        List<Integer> testList3 = new ArrayList<>();
+        testList3.add(7);
+        testList3.add(8);
+        testList3.add(9);
+        testList3.add(300);
+        testList3.add(300);
+        build3.setAttributeOptions(testList3);
+        build3.setSelectedAbilitiesWeapon1(testList3);
+        build3.setSelectedAbilitiesWeapon2(testList3);
+
+        mockMvc.perform(put("/builder/{name}", "Test")
+                .content(mapper.writeValueAsString(build3))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.primaryWeaponName", is("TestWeapon5")))
+                .andExpect(jsonPath("$.secondaryWeaponName", is("TestWeapon6")))
+                .andExpect(jsonPath("$.name", is("Test3")))
+                .andExpect(jsonPath("$.username", is("Luuk3")))
+                .andExpect(jsonPath("$.tag", is("War")))
+                .andExpect(jsonPath("$.selectedAbilitiesWeapon1", is(testList3)))
+                .andExpect(jsonPath("$.selectedAbilitiesWeapon2", is(testList3)))
+                .andExpect(jsonPath("$.attributeOptions", is(testList3)));
+    }
+
+    @Test
+    public void givenBuild_whenDeleteBuild_thenStatusOk() throws Exception {
+        mockMvc.perform(delete("/builder/{name}", "Test")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void givenNoBuild_whenDeleteBuild_thenStatusNotFound() throws Exception {
+        mockMvc.perform(delete("/builder/{name}", "NonExistent")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 }

@@ -101,8 +101,7 @@ public class BuildController {
     @PostMapping("/builder")
     public ResponseEntity<Object> createBuild(@RequestBody Build build){
         try {
-            buildRepository.save(build);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(buildRepository.save(build), HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -114,8 +113,7 @@ public class BuildController {
         try {
             Build buildByName = buildRepository.findByNameEquals(name);
             build.setId(buildByName.getId());
-            buildRepository.save(build);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(buildRepository.save(build), HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -125,8 +123,13 @@ public class BuildController {
     @DeleteMapping("/builder/{name}")
     public ResponseEntity<Object> deleteBuild(@PathVariable String name) {
         try {
-            buildRepository.deleteByNameEquals(name);
-            return new ResponseEntity<>(HttpStatus.OK);
+            Build build = buildRepository.findByNameEquals(name);
+            if(build != null) {
+                buildRepository.deleteByNameEquals(name);
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } catch (Exception e) {
             System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

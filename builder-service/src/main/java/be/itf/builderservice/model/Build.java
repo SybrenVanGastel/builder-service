@@ -11,8 +11,8 @@ import java.util.List;
 public class Build {
     @Id
     private String id;
-    private Integer primaryWeaponId;
-    private Integer secondaryWeaponId;
+    private String primaryWeaponName;
+    private String secondaryWeaponName;
     @Indexed(unique=true)
     private String name;
     private String username;
@@ -24,9 +24,9 @@ public class Build {
     public Build() {
     }
 
-    public Build(Integer primaryWeaponId, Integer secondaryWeaponId, String name, String username, Tag tag) {
-        this.primaryWeaponId = primaryWeaponId;
-        this.secondaryWeaponId = secondaryWeaponId;
+    public Build(String primaryWeaponName, String secondaryWeaponName, String name, String username, Tag tag) {
+        this.primaryWeaponName = primaryWeaponName;
+        this.secondaryWeaponName = secondaryWeaponName;
         this.name = name;
         this.username = username;
         this.tag = tag;
@@ -40,20 +40,20 @@ public class Build {
         this.id = id;
     }
 
-    public Integer getPrimaryWeaponId() {
-        return primaryWeaponId;
+    public String getPrimaryWeaponName() {
+        return primaryWeaponName;
     }
 
-    public void setPrimaryWeaponId(Integer primaryWeaponId) {
-        this.primaryWeaponId = primaryWeaponId;
+    public void setPrimaryWeaponName(String primaryWeaponName) {
+        this.primaryWeaponName = primaryWeaponName;
     }
 
-    public Integer getSecondaryWeaponId() {
-        return secondaryWeaponId;
+    public String getSecondaryWeaponName() {
+        return secondaryWeaponName;
     }
 
-    public void setSecondaryWeaponId(Integer secondaryWeaponId) {
-        this.secondaryWeaponId = secondaryWeaponId;
+    public void setSecondaryWeaponName(String secondaryWeaponName) {
+        this.secondaryWeaponName = secondaryWeaponName;
     }
 
     public String getName() {

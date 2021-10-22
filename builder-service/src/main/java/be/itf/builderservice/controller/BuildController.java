@@ -21,7 +21,7 @@ public class BuildController {
     @GetMapping("/fill")
     public String fill() {
 
-        Build build = new Build(1, 2, "TestBuild", "Sybren", Tag.PvE);
+        Build build = new Build("Rapier", "Musket", "TestBuild", "Sybren", Tag.PvE);
 
         List<Integer> test = new ArrayList<>();
         test.add(20);
@@ -42,7 +42,7 @@ public class BuildController {
     @GetMapping("/builders")
     public ResponseEntity<Object> getAllBuilds() {
         try {
-            return BuildResponseBuilder.generateAllBuilds("Successfully returned all builds", HttpStatus.OK, buildRepository.findAll());
+            return new ResponseEntity<>(buildRepository.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -52,7 +52,7 @@ public class BuildController {
     @GetMapping("/builder/{name}")
     public ResponseEntity<Object> getBuildByName(@PathVariable String name) {
         try {
-            return BuildResponseBuilder.generateOneBuild("Successfully returned build " + name, HttpStatus.OK, buildRepository.findByNameEquals(name));
+            return new ResponseEntity<>(buildRepository.findByNameEquals(name), HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

@@ -58,6 +58,46 @@ public class BuildController {
         }
     }
 
+    @GetMapping("/builders/{name}")
+    public ResponseEntity<Object> getBuildsByName(@PathVariable String name) {
+        try {
+            return new ResponseEntity<>(buildRepository.findAllByNameIgnoreCaseContaining(name), HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/builders/user/{name}")
+    public ResponseEntity<Object> getBuildsByUsername(@PathVariable String name) {
+        try {
+            return new ResponseEntity<>(buildRepository.findAllByUsernameIgnoreCaseContaining(name), HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/builders/weapon/{name}")
+    public ResponseEntity<Object> getBuildsByWeapon(@PathVariable String name) {
+        try {
+            return new ResponseEntity<>(buildRepository.findAllByPrimaryWeaponNameIgnoreCaseContainingOrSecondaryWeaponNameIgnoreCaseContaining(name, name), HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/builders/tag/{name}")
+    public ResponseEntity<Object> getBuildsByTag(@PathVariable String name) {
+        try {
+            return new ResponseEntity<>(buildRepository.findAllByTagEquals(name), HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping("/builder")
     public ResponseEntity<Object> createBuild(@RequestBody Build build){
         try {

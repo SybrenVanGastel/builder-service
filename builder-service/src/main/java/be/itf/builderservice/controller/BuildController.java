@@ -101,8 +101,7 @@ public class BuildController {
     @PostMapping("/builder")
     public ResponseEntity<Object> createBuild(@RequestBody Build build){
         try {
-            buildRepository.save(build);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(buildRepository.save(build), HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -114,8 +113,7 @@ public class BuildController {
         try {
             Build buildByName = buildRepository.findByNameEquals(name);
             build.setId(buildByName.getId());
-            buildRepository.save(build);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(buildRepository.save(build), HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

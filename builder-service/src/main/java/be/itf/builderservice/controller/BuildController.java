@@ -123,8 +123,13 @@ public class BuildController {
     @DeleteMapping("/builder/{name}")
     public ResponseEntity<Object> deleteBuild(@PathVariable String name) {
         try {
-            buildRepository.deleteByNameEquals(name);
-            return new ResponseEntity<>(HttpStatus.OK);
+            Build build = buildRepository.findByNameEquals(name);
+            if(build != null) {
+                buildRepository.deleteByNameEquals(name);
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } catch (Exception e) {
             System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

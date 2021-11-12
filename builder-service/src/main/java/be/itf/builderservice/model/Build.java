@@ -32,6 +32,17 @@ public class Build {
         this.tag = tag;
     }
 
+    public Build(String primaryWeaponName, String secondaryWeaponName, String name, String username, Tag tag, List<Integer> selectedAbilitiesWeapon1, List<Integer> selectedAbilitiesWeapon2, List<Integer> attributeOptions) {
+        this.primaryWeaponName = primaryWeaponName;
+        this.secondaryWeaponName = secondaryWeaponName;
+        this.name = name;
+        this.username = username;
+        this.tag = tag;
+        this.selectedAbilitiesWeapon1 = selectedAbilitiesWeapon1;
+        this.selectedAbilitiesWeapon2 = selectedAbilitiesWeapon2;
+        this.attributeOptions = attributeOptions;
+    }
+
     public String getId() {
         return id;
     }

@@ -19,6 +19,8 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -189,6 +191,9 @@ public class BuildControllerUnitTests {
     @Test
     public void whenCreateBuild_thenReturnJsonBuild() throws Exception {
         Build build3 = new Build("TestWeapon5", "TestWeapon6", "TestBuild3", "Tester3", Tag.War, Arrays.asList(13,14,15), Arrays.asList(16,17,18), Arrays.asList(7, 8, 9, 300, 300));
+
+//        given(buildRepository.save(build3)).willReturn(build3);
+        when(buildRepository.save(any(Build.class))).thenReturn(build3);
 
         mockMvc.perform(post("/builder")
                 .content(mapper.writeValueAsString(build3))

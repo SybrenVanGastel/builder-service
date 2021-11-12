@@ -22,6 +22,9 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class BuildControllerUnitTests {
@@ -190,6 +193,8 @@ public class BuildControllerUnitTests {
     public void whenCreateBuild_thenReturnJsonBuild() throws Exception {
         Build build3 = new Build("TestWeapon5", "TestWeapon6", "TestBuild3", "Tester3", Tag.War, Arrays.asList(13,14,15), Arrays.asList(16,17,18), Arrays.asList(7, 8, 9, 300, 300));
 
+        when(buildRepository.save(any(Build.class))).thenReturn(build3);
+
         mockMvc.perform(post("/builder")
                 .content(mapper.writeValueAsString(build3))
                 .contentType(MediaType.APPLICATION_JSON))
@@ -212,6 +217,8 @@ public class BuildControllerUnitTests {
         given(buildRepository.findByNameEquals("TestBuild3")).willReturn(build3);
 
         Build updatedBuild = new Build("TestWeapon5", "TestWeapon6", "TestBuild3", "Luuk", Tag.War, Arrays.asList(13,14,15), Arrays.asList(16,17,18), Arrays.asList(7, 8, 9, 300, 300));
+
+        when(buildRepository.save(any(Build.class))).thenReturn(updatedBuild);
 
         mockMvc.perform(put("/builder/{name}", "TestBuild3")
                 .content(mapper.writeValueAsString(updatedBuild))

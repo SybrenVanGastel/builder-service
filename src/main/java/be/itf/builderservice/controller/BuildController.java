@@ -1,6 +1,7 @@
 package be.itf.builderservice.controller;
 
 import be.itf.builderservice.model.Build;
+import be.itf.builderservice.model.BuildDTO;
 import be.itf.builderservice.model.Tag;
 import be.itf.builderservice.repository.BuildRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class BuildController {
     @GetMapping("/fill")
     public String fill() {
 
-        Build build = new Build("Rapier", "Musket", "TestBuild", "Sybren", Tag.PvE);
+        Build build = new Build("Rapier", "Musket", "TestBuild", "Sybren", Tag.PVE);
 
         List<Integer> test = new ArrayList<>();
         test.add(1);
@@ -43,7 +44,6 @@ public class BuildController {
         try {
             return new ResponseEntity<>(buildRepository.findAll(), HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -53,7 +53,6 @@ public class BuildController {
         try {
             return new ResponseEntity<>(buildRepository.findByNameEquals(name), HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -63,7 +62,6 @@ public class BuildController {
         try {
             return new ResponseEntity<>(buildRepository.findAllByNameIgnoreCaseContaining(name), HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -73,7 +71,6 @@ public class BuildController {
         try {
             return new ResponseEntity<>(buildRepository.findAllByUsernameIgnoreCaseContaining(name), HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -83,7 +80,6 @@ public class BuildController {
         try {
             return new ResponseEntity<>(buildRepository.findAllByPrimaryWeaponNameIgnoreCaseContainingOrSecondaryWeaponNameIgnoreCaseContaining(name, name), HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -93,7 +89,6 @@ public class BuildController {
         try {
             return new ResponseEntity<>(buildRepository.findAllByTagEquals(name), HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -103,19 +98,26 @@ public class BuildController {
         try {
             return new ResponseEntity<>(buildRepository.save(build), HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/builder/{name}")
-    public ResponseEntity<Object> putBuild(@PathVariable String name, @RequestBody Build build){
+    public ResponseEntity<Object> putBuild(@PathVariable String name, @RequestBody BuildDTO buildDTO){
         try {
-            Build buildByName = buildRepository.findByNameEquals(name);
-            build.setId(buildByName.getId());
+            Build build = buildRepository.findByNameEquals(name);
+
+            build.setName(buildDTO.getName());
+            build.setPrimaryWeaponName(buildDTO.getPrimaryWeaponName());
+            build.setSecondaryWeaponName(buildDTO.getSecondaryWeaponName());
+            build.setUsername(buildDTO.getUsername());
+            build.setTag(buildDTO.getTag());
+            build.setSelectedAbilitiesWeapon1(buildDTO.getSelectedAbilitiesWeapon1());
+            build.setSelectedAbilitiesWeapon2(buildDTO.getSelectedAbilitiesWeapon2());
+            build.setAttributeOptions(buildDTO.getAttributeOptions());
+
             return new ResponseEntity<>(buildRepository.save(build), HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -131,7 +133,6 @@ public class BuildController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
-            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

@@ -18,6 +18,19 @@ public class BuildController {
     @Autowired
     private BuildRepository buildRepository;
 
+    private ResponseEntity<Object> dtoToObject(Build build, BuildDTO buildDTO) {
+        build.setName(buildDTO.getName());
+        build.setPrimaryWeaponName(buildDTO.getPrimaryWeaponName());
+        build.setSecondaryWeaponName(buildDTO.getSecondaryWeaponName());
+        build.setUsername(buildDTO.getUsername());
+        build.setTag(buildDTO.getTag());
+        build.setSelectedAbilitiesWeapon1(buildDTO.getSelectedAbilitiesWeapon1());
+        build.setSelectedAbilitiesWeapon2(buildDTO.getSelectedAbilitiesWeapon2());
+        build.setAttributeOptions(buildDTO.getAttributeOptions());
+
+        return new ResponseEntity<>(buildRepository.save(build), HttpStatus.OK);
+    }
+
     @GetMapping("/fill")
     public String fill() {
 
@@ -94,9 +107,10 @@ public class BuildController {
     }
 
     @PostMapping("/builder")
-    public ResponseEntity<Object> createBuild(@RequestBody Build build){
+    public ResponseEntity<Object> createBuild(@RequestBody BuildDTO buildDTO){
         try {
-            return new ResponseEntity<>(buildRepository.save(build), HttpStatus.OK);
+            Build build = new Build();
+            return dtoToObject(build, buildDTO);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -106,17 +120,7 @@ public class BuildController {
     public ResponseEntity<Object> putBuild(@PathVariable String name, @RequestBody BuildDTO buildDTO){
         try {
             Build build = buildRepository.findByNameEquals(name);
-
-            build.setName(buildDTO.getName());
-            build.setPrimaryWeaponName(buildDTO.getPrimaryWeaponName());
-            build.setSecondaryWeaponName(buildDTO.getSecondaryWeaponName());
-            build.setUsername(buildDTO.getUsername());
-            build.setTag(buildDTO.getTag());
-            build.setSelectedAbilitiesWeapon1(buildDTO.getSelectedAbilitiesWeapon1());
-            build.setSelectedAbilitiesWeapon2(buildDTO.getSelectedAbilitiesWeapon2());
-            build.setAttributeOptions(buildDTO.getAttributeOptions());
-
-            return new ResponseEntity<>(buildRepository.save(build), HttpStatus.OK);
+            return dtoToObject(build, buildDTO);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

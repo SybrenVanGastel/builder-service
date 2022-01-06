@@ -23,7 +23,7 @@ public class BuildController {
         build.setPrimaryWeaponName(buildDTO.getPrimaryWeaponName());
         build.setSecondaryWeaponName(buildDTO.getSecondaryWeaponName());
         build.setUsername(buildDTO.getUsername());
-        build.setTag(buildDTO.getTag());
+        build.setTag(Tag.valueOf(buildDTO.getTag()));
         build.setSelectedAbilitiesWeapon1(buildDTO.getSelectedAbilitiesWeapon1());
         build.setSelectedAbilitiesWeapon2(buildDTO.getSelectedAbilitiesWeapon2());
         build.setAttributeOptions(buildDTO.getAttributeOptions());

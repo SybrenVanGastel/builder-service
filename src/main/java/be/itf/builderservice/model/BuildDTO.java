@@ -8,7 +8,7 @@ public class BuildDTO {
     private String secondaryWeaponName;
     private String name;
     private String username;
-    private Tag tag;
+    private String tag;
     private List<Integer> selectedAbilitiesWeapon1 = new ArrayList<>();
     private List<Integer> selectedAbilitiesWeapon2 = new ArrayList<>();
     private List<Integer> attributeOptions = new ArrayList<>();
@@ -48,11 +48,11 @@ public class BuildDTO {
         this.username = username;
     }
 
-    public Tag getTag() {
+    public String getTag() {
         return tag;
     }
 
-    public void setTag(Tag tag) {
+    public void setTag(String tag) {
         this.tag = tag;
     }
 

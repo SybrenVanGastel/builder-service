@@ -99,7 +99,7 @@ public class BuildController {
     }
 
     @PostMapping("/builder")
-    public ResponseEntity<Object> createBuild(@RequestBody Build build){
+    public ResponseEntity<Object> createBuild(@RequestBody Build build) {
         try {
             return new ResponseEntity<>(buildRepository.save(build), HttpStatus.OK);
         } catch (Exception e) {
@@ -109,7 +109,7 @@ public class BuildController {
     }
 
     @PutMapping("/builder/{name}")
-    public ResponseEntity<Object> putBuild(@PathVariable String name, @RequestBody Build build){
+    public ResponseEntity<Object> putBuild(@PathVariable String name, @RequestBody Build build) {
         try {
             Build buildByName = buildRepository.findByNameEquals(name);
             build.setId(buildByName.getId());
@@ -124,7 +124,7 @@ public class BuildController {
     public ResponseEntity<Object> deleteBuild(@PathVariable String name) {
         try {
             Build build = buildRepository.findByNameEquals(name);
-            if(build != null) {
+            if (build != null) {
                 buildRepository.deleteByNameEquals(name);
                 return new ResponseEntity<>(HttpStatus.OK);
             } else {

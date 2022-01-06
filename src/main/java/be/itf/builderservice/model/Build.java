@@ -13,7 +13,7 @@ public class Build {
     private String id;
     private String primaryWeaponName;
     private String secondaryWeaponName;
-    @Indexed(unique=true)
+    @Indexed(unique = true)
     private String name;
     private String username;
     private Tag tag;

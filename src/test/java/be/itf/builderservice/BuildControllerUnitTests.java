@@ -39,8 +39,8 @@ public class BuildControllerUnitTests {
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    Build build1 = new Build("TestWeapon1", "TestWeapon2", "TestBuild", "Tester", Tag.PvE, Arrays.asList(1, 2, 3), Arrays.asList(4,5,6), Arrays.asList(1, 2, 3, 100, 100));
-    Build build2 = new Build("TestWeapon3", "TestWeapon4", "TestBuild2", "Tester2", Tag.PvP, Arrays.asList(7,8,9), Arrays.asList(10,11,12), Arrays.asList(4, 5, 6, 200, 200));
+    Build build1 = new Build("TestWeapon1", "TestWeapon2", "TestBuild", "Tester", Tag.PvE, Arrays.asList(1, 2, 3), Arrays.asList(4, 5, 6), Arrays.asList(1, 2, 3, 100, 100));
+    Build build2 = new Build("TestWeapon3", "TestWeapon4", "TestBuild2", "Tester2", Tag.PvP, Arrays.asList(7, 8, 9), Arrays.asList(10, 11, 12), Arrays.asList(4, 5, 6, 200, 200));
 
     private List<Build> allBuilds = Arrays.asList(build1, build2);
 
@@ -193,7 +193,7 @@ public class BuildControllerUnitTests {
 
     @Test
     public void whenCreateBuild_thenReturnJsonBuild() throws Exception {
-        Build build3 = new Build("TestWeapon5", "TestWeapon6", "TestBuild3", "Tester3", Tag.War, Arrays.asList(13,14,15), Arrays.asList(16,17,18), Arrays.asList(7, 8, 9, 300, 300));
+        Build build3 = new Build("TestWeapon5", "TestWeapon6", "TestBuild3", "Tester3", Tag.War, Arrays.asList(13, 14, 15), Arrays.asList(16, 17, 18), Arrays.asList(7, 8, 9, 300, 300));
 
         when(buildRepository.save(any(Build.class))).thenReturn(build3);
 
@@ -214,11 +214,11 @@ public class BuildControllerUnitTests {
 
     @Test
     public void whenPutBuild_thenReturnJsonBuild() throws Exception {
-        Build build3 = new Build("TestWeapon5", "TestWeapon6", "TestBuild3", "Tester3", Tag.War, Arrays.asList(13,14,15), Arrays.asList(16,17,18), Arrays.asList(7, 8, 9, 300, 300));
+        Build build3 = new Build("TestWeapon5", "TestWeapon6", "TestBuild3", "Tester3", Tag.War, Arrays.asList(13, 14, 15), Arrays.asList(16, 17, 18), Arrays.asList(7, 8, 9, 300, 300));
 
         given(buildRepository.findByNameEquals("TestBuild3")).willReturn(build3);
 
-        Build updatedBuild = new Build("TestWeapon5", "TestWeapon6", "TestBuild3", "Luuk", Tag.War, Arrays.asList(13,14,15), Arrays.asList(16,17,18), Arrays.asList(7, 8, 9, 300, 300));
+        Build updatedBuild = new Build("TestWeapon5", "TestWeapon6", "TestBuild3", "Luuk", Tag.War, Arrays.asList(13, 14, 15), Arrays.asList(16, 17, 18), Arrays.asList(7, 8, 9, 300, 300));
 
         when(buildRepository.save(any(Build.class))).thenReturn(updatedBuild);
 
@@ -239,7 +239,7 @@ public class BuildControllerUnitTests {
 
     @Test
     public void givenBuild_whenDeleteBuild_thenStatusOk() throws Exception {
-        Build buildToBeDeleted = new Build("TestWeapon10", "TestWeapon11", "TestBuild10", "Tester10", Tag.General, Arrays.asList(100,101,102), Arrays.asList(103,104,105), Arrays.asList(100,101,102,500,500));
+        Build buildToBeDeleted = new Build("TestWeapon10", "TestWeapon11", "TestBuild10", "Tester10", Tag.General, Arrays.asList(100, 101, 102), Arrays.asList(103, 104, 105), Arrays.asList(100, 101, 102, 500, 500));
 
         given(buildRepository.findByNameEquals("TestBuild10")).willReturn(buildToBeDeleted);
 

@@ -30,7 +30,7 @@ public class BuildControllerIntegrationTests {
 
     @Autowired
     private BuildRepository buildRepository;
-    
+
     private ObjectMapper mapper = new ObjectMapper();
 
     private Build build1 = new Build("TestWeapon1", "TestWeapon2", "Test", "Luuk", Tag.PvE);
@@ -164,7 +164,7 @@ public class BuildControllerIntegrationTests {
                 .andExpect(jsonPath("$[1].selectedAbilitiesWeapon1", is(testList2)))
                 .andExpect(jsonPath("$[1].selectedAbilitiesWeapon2", is(testList2)))
                 .andExpect(jsonPath("$[1].attributeOptions", is(testList2)));
-        }
+    }
 
     @Test
     public void givenBuilds_whenGetBuildsByUsername_thenReturnJsonBuilds() throws Exception {

@@ -9,9 +9,14 @@ import java.util.List;
 @Repository
 public interface BuildRepository extends MongoRepository<Build, String> {
     Build findByNameEquals(String name);
+
     void deleteByNameEquals(String name);
+
     List<Build> findAllByNameIgnoreCaseContaining(String name);
+
     List<Build> findAllByUsernameIgnoreCaseContaining(String name);
+
     List<Build> findAllByPrimaryWeaponNameIgnoreCaseContainingOrSecondaryWeaponNameIgnoreCaseContaining(String name1, String name2);
+
     List<Build> findAllByTagEquals(String name);
 }
